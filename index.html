@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caesar Cipher</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: linear-gradient(to right, #141e30, #243b55);
+    }
+
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        background-image: linear-gradient(to right, #9796f0, #fbc7d4);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    textarea {
+        width: calc(100% - 20px);
+        height: 100px;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+    }
+
+    input[type="number"] {
+        width: calc(100% - 20px);
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    label[for="result"] {
+        display: block;
+        margin-top: 20px;
+    }
+
+    #result {
+        width: calc(100% - 20px);
+        height: 100px;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+    }
+
+    @media screen and (max-width: 768px) {
+        .container {
+            width: 90%;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Caesar Cipher Encryption and Decryption</h2>
+    <label for="message">Message:</label><br>
+    <textarea id="message" placeholder="Enter your message..."></textarea><br>
+    <label for="shift">Shift Value:</label><br>
+    <input type="number" id="shift" placeholder="Enter the shift value..."><br><br>
+    <button onclick="encrypt()">Encrypt</button>
+    <button onclick="decrypt()">Decrypt</button><br><br>
+    <label for="result">Result:</label><br>
+    <textarea id="result" readonly></textarea>
+</div>
+
+<script>
+    function caesarEncrypt(text, shift) {
+        let result = "";
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            if (char.match(/[a-z]/i)) {
+                let code = text.charCodeAt(i);
+                if (code >= 65 && code <= 90) {
+                    char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                } else if (code >= 97 && code <= 122) {
+                    char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                }
+            }
+            result += char;
+        }
+        return result;
+    }
+
+    function caesarDecrypt(text, shift) {
+        return caesarEncrypt(text, 26 - shift);
+    }
+
+    function encrypt() {
+        let message = document.getElementById("message").value;
+        let shift = parseInt(document.getElementById("shift").value);
+        let encryptedMessage = caesarEncrypt(message, shift);
+        document.getElementById("result").value = encryptedMessage;
+    }
+
+    function decrypt() {
+        let message = document.getElementById("message").value;
+        let shift = parseInt(document.getElementById("shift").value);
+        let decryptedMessage = caesarDecrypt(message, shift);
+        document.getElementById("result").value = decryptedMessage;
+    }
+</script>
+
+</body>
+</html>
